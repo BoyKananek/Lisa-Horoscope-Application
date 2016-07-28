@@ -83,6 +83,15 @@ angular.module('App', ["ionic","ngCordovaOauth"])
         }
     );
   }
+  $scope.logoutFacebook = function(){
+    facebookConnectPlugin.logout(function(result){
+      //
+      alert('Log out');
+    },function(err){
+      //
+      alert('Cannot logout '+err)
+    });
+  }
 })
 
 .service('BDService',function(){
@@ -168,11 +177,11 @@ angular.module('App', ["ionic","ngCordovaOauth"])
             facebookConnectPlugin.showDialog(
             {
                 method: "feed",
-                picture:'www.lisaguru.com',
+                picture:'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac,
                 name:'Lisa Horoscope',
                 message: $scope.zodiac,
                 caption: 'Lets\' see your horoscope ',
-                description: 'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac
+                description: 'www.lisaguru.com'
             },
             function (response) {
               //alert(JSON.stringify(response))

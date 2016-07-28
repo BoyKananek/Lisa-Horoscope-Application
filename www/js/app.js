@@ -158,18 +158,24 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   $scope.shareFB = function(){
     facebookConnectPlugin.getLoginStatus(
         function (status) {
-            alert("current status: " + JSON.stringify(status));
+            //alert("current status: " + JSON.stringify(status));
             facebookConnectPlugin.showDialog(
             {
                 method: "feed",
-                picture:'http://www.lisaguru.com',
-                name:'Hello',
-                message:'First photo post',
-                caption: 'Testing using phonegap plugin',
-                description: 'Posting photo using phonegap facebook plugin'
+                picture:'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac,
+                name:'Lisa Horoscope',
+                message: $scope.zodiac,
+                caption: 'Lets\' see your horoscope ',
+                description: 'www.lisaguru.com'
             },
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) }
+            function (response) {
+              //alert(JSON.stringify(response))
+              alert("Post!");
+            },
+            function (response) {
+              //alert(JSON.stringify(response))
+              alert("Fail!");
+            }
           );
         }
     );

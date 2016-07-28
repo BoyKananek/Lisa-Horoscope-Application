@@ -36,15 +36,19 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 
 .controller('NavCtrl',function($scope,$location,$state,$http,$templateCache,CurrentUserService){
   var fbLoginSuccess = function (userData) {
-      facebookConnectPlugin.api("/me?fields=id,gender,email,first_name,last_name",["email"],
+      facebookConnectPlugin.api(userData['authResponse']['userID']+"/?fields=id,email,first_name,last_name",["email"],
       function (result) {
           alert("Login Successful");
           $state.go('profile');
           //alert("Result: " + JSON.stringify(result));
-          $scope.id = result.id;
-          $scope.token = result.token;
-          $scope.email = result.email;
-          $scope.name = result.first_name +" "+result.last_name;
+          $scope.id = result["id"];
+          $scope.token = result["token"];
+          $scope.email = result["email"];
+          $scope.name = result["first_name"] +" "+result["last_name"];
+          //$scope.id = result.id;
+          //$scope.token = result.token;
+          //$scope.email = result.email;
+          //$scope.name = result.first_name +" "+result.last_name;
           var dataObj = {
             id: $scope.id,
             token:$scope.token,
@@ -74,7 +78,9 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   $scope.loginFacebook = function(){
     facebookConnectPlugin.login(["public_profile","email"],
         fbLoginSuccess,
-        function (error) { alert("" + error) }
+        function (error) {
+          alert("Login Failed! " + error)
+        }
     );
   }
 })
@@ -162,11 +168,11 @@ angular.module('App', ["ionic","ngCordovaOauth"])
             facebookConnectPlugin.showDialog(
             {
                 method: "feed",
-                picture:'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac,
+                picture:'www.lisaguru.com',
                 name:'Lisa Horoscope',
                 message: $scope.zodiac,
                 caption: 'Lets\' see your horoscope ',
-                description: 'www.lisaguru.com'
+                description: 'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac
             },
             function (response) {
               //alert(JSON.stringify(response))

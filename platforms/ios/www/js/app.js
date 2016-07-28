@@ -23,7 +23,18 @@ angular.module('App', ["ionic","ngCordovaOauth"])
     });
   $urlRouterProvider.otherwise('/home');
 })
-.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache){
+
+.service('CurrentUserService',function(){
+  var currentUser;
+  this.save = function(user){
+    currentUser = user;
+  }
+  this.get = function(){
+    return currentUser;
+  }
+})
+
+.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache,CurrentUserService){
   var fbLoginSuccess = function (userData) {
       facebookConnectPlugin.api("/me?fields=id,gender,email,first_name,last_name",["email"],
       function (result) {
@@ -47,6 +58,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
           res.error(function(data,status,headers,config){
              //alert("failure message:" + JSON.stringify({data:data}));
           });
+          CurrentUserService.save(dataObj);
           // saving to databases
           $scope.id ='';
           $scope.token ='';
@@ -132,7 +144,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   }
 })
 
-.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService){
+.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService,CurrentUserService){
   $scope.zodiac = BDService.get();
   $http.get("https://lisahoroscope.herokuapp.com/api/horoscope/"+$scope.zodiac).then(function(response){
     $scope.daily = response.data.Daily_Horoscope;
@@ -143,6 +155,25 @@ angular.module('App', ["ionic","ngCordovaOauth"])
     $scope.wellness = response.data.Wellness;
     $scope.icon = response.data.Icon;
   });
+  $scope.shareFB = function(){
+    facebookConnectPlugin.getLoginStatus(
+        function (status) {
+            alert("current status: " + JSON.stringify(status));
+            facebookConnectPlugin.showDialog(
+            {
+                method: "feed",
+                picture:'http://www.lisaguru.com',
+                name:'Test Post',
+                message:'First photo post',
+                caption: 'Testing using phonegap plugin',
+                description: 'Posting photo using phonegap facebook plugin'
+            },
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) }
+          );
+        }
+    );
+  }
 })
 
 .run(function($ionicPlatform) {

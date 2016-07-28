@@ -1,0 +1,41 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "phonegap-facebook-plugin": {
+            "APP_ID": "1333155163379937",
+            "APP_NAME": "Lisa Horoscope",
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        },
+        "cordova-plugin-disable-bitcode": {
+            "PACKAGE_NAME": "com.ionicframework.lisahoroscope"
+        }
+    },
+    "dependent_plugins": {}
+}

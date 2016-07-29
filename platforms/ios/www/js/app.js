@@ -32,9 +32,8 @@ angular.module('App', ["ionic","ngCordovaOauth"])
       function (result) {
           var alertPopup = $ionicPopup.alert({
              title: 'Login Successful',
-             template: 'Hello Mr/Ms '+ result["first_name"] +" "+result["last_name"]
+             template: 'Hello '+ result["first_name"] +" "+result["last_name"]
           });
-
           $state.go('profile');
           $scope.id = result["id"];
           $scope.token = result["token"];
@@ -91,18 +90,15 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 
 })
 
+
 .controller('profileCtrl',function($scope,$state,$http,$templateCache,$ionicPopup,BDService,dateFilter){
+
   $scope.logoutFacebook = function(){
     facebookConnectPlugin.logout(function(result){
-      alert("Logout");
-
+      alert("logout");
       $state.go('home');
     },function(err){
-      //
-      var alertPopup = $ionicPopup.alert({
-         title: 'Login failure',
-         template: 'Please try again.'
-      });
+      alert("logout err: "+err);
     });
   }
   $scope.submitData = function(){
@@ -116,40 +112,53 @@ angular.module('App', ["ionic","ngCordovaOauth"])
       $scope.day = parseInt(dateFilter($scope.birthdate,'dd'),10);
       if($scope.month == 12 && $scope.day >= 22 || $scope.month == 1 && $scope.day == 1){
         BDService.save("Capricorn");
+
       }
       else if ($scope.month == 1 && $scope.day >= 20 || $scope.month == 2 && $scope.day <= 18){
         BDService.save("Aquarius");
+
       }
       else if ($scope.month == 2 && $scope.day >= 19 || $scope.month == 3 && $scope.day <= 20){
         BDService.save("Pisces");
+
       }
       else if ($scope.month == 3 && $scope.day >= 21 || $scope.month == 4 && $scope.day <= 19){
         BDService.save("Aries");
+
       }
       else if ($scope.month == 4 && $scope.day >= 20 || $scope.month == 5 && $scope.day <= 20){
         BDService.save("Taurus");
+
       }
       else if ($scope.month == 5 && $scope.day >= 21 || $scope.month == 6 && $scope.day <= 21){
         BDService.save("Gemini");
+
       }
       else if ($scope.month == 6 && $scope.day >= 22 || $scope.month == 7 && $scope.day <= 22){
         BDService.save("Cancer");
+
       }
       else if ($scope.month == 7 && $scope.day >= 23 || $scope.month == 8 && $scope.day <= 22){
         BDService.save("Leo");
+
       }
       else if ($scope.month == 8 && $scope.day >= 23 || $scope.month == 9 && $scope.day <= 22){
         BDService.save("Virgo");
+
       }
       else if ($scope.month == 9 && $scope.day >= 23 || $scope.month == 10 && $scope.day <= 22){
         BDService.save("Libra");
+
       }
       else if ($scope.month == 10 && $scope.day >= 23 || $scope.month == 11 && $scope.day <= 21){
         BDService.save("Scorpio");
+
       }
       else if ($scope.month == 11 && $scope.day >= 22 || $scope.month == 12 && $scope.day <= 21){
         BDService.save("Sagittarius");
+
       }
+
     }
     //BDService.save($scope.day,$scope.month);
     //condition find sign of zodiac and query to api

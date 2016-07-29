@@ -37,7 +37,6 @@ angular.module('App', ["ionic","ngCordovaOauth"])
           $scope.token = result["token"];
           $scope.email = result["email"];
           $scope.name = result["first_name"] +" "+result["last_name"];
-          alert($scope.email);
           var dataObj = {
             id: $scope.id,
             token:$scope.token,
@@ -46,7 +45,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
           };
           var res = $http.post('https://lisahoroscope.herokuapp.com/api/users',dataObj);
           res.success(function(data,status,header,config){
-            alert("Save users name Successful");
+            //alert("Save users name Successful");
           });
           res.error(function(data,status,headers,config){
              //alert("failure message:" + JSON.stringify({data:data}));
@@ -148,7 +147,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   }
 })
 
-.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService,CurrentUserService){
+.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService){
   $scope.zodiac = BDService.get();
   $http.get("https://lisahoroscope.herokuapp.com/api/horoscope/"+$scope.zodiac).then(function(response){
     $scope.daily = response.data.Daily_Horoscope;

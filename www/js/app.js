@@ -147,7 +147,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   }
 })
 
-.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService,CurrentUserService){
+.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService){
   $scope.zodiac = BDService.get();
   $http.get("https://lisahoroscope.herokuapp.com/api/horoscope/"+$scope.zodiac).then(function(response){
     $scope.daily = response.data.Daily_Horoscope;

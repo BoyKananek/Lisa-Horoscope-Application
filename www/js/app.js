@@ -25,13 +25,15 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 })
 
 
-.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache){
+.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache,$ionicPopup){
   var fbLoginSuccess = function (userData) {
       //facebookConnectPlugin.api(userData['authResponse']['userID']+"/?fields=id,email,first_name,last_name",["email"],
       facebookConnectPlugin.api("me/?fields=id,email,first_name,last_name",["email"],
       function (result) {
-          //alert("Result : " + JSON.stringity(result));
-          alert("Login Successful");
+          var alertPopup = $ionicPopup.alert({
+             title: 'Login Successful',
+             template: 'Hello '+ result["first_name"] +" "+result["last_name"]
+          });
           $state.go('profile');
           $scope.id = result["id"];
           $scope.token = result["token"];
@@ -67,7 +69,11 @@ angular.module('App', ["ionic","ngCordovaOauth"])
     facebookConnectPlugin.login(["public_profile","email"],
         fbLoginSuccess,
         function (error) {
-          alert("Login Failed! " + error)
+          var alertPopup = $ionicPopup.alert({
+             title: 'Login failure',
+             template: 'Please type again'
+          });
+
         }
     );
   }
@@ -84,15 +90,13 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 
 })
 
-.controller('profileCtrl',function($scope,$state,$http,$templateCache,BDService,dateFilter){
+.controller('profileCtrl',function($scope,$state,$http,$templateCache,$ionicPopup,BDService,dateFilter){
   $scope.logoutFacebook = function(){
     facebookConnectPlugin.logout(function(result){
-      //
-      alert('Log out');
+      alert("logout");
       $state.go('home');
     },function(err){
-      //
-      alert('Cannot logout '+err)
+      alert("logout err: "+err);
     });
   }
   $scope.submitData = function(){

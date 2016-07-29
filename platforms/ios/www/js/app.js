@@ -24,31 +24,20 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   $urlRouterProvider.otherwise('/home');
 })
 
-.service('CurrentUserService',function(){
-  var currentUser;
-  this.save = function(user){
-    currentUser = user;
-  }
-  this.get = function(){
-    return currentUser;
-  }
-})
 
-.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache,CurrentUserService){
+.controller('NavCtrl',function($scope,$location,$state,$http,$templateCache){
   var fbLoginSuccess = function (userData) {
-      facebookConnectPlugin.api(userData['authResponse']['userID']+"/?fields=id,email,first_name,last_name",["email"],
+      //facebookConnectPlugin.api(userData['authResponse']['userID']+"/?fields=id,email,first_name,last_name",["email"],
+      facebookConnectPlugin.api("me/?fields=id,email,first_name,last_name",["email"],
       function (result) {
+          //alert("Result : " + JSON.stringity(result));
           alert("Login Successful");
           $state.go('profile');
-          //alert("Result: " + JSON.stringify(result));
           $scope.id = result["id"];
           $scope.token = result["token"];
           $scope.email = result["email"];
           $scope.name = result["first_name"] +" "+result["last_name"];
-          //$scope.id = result.id;
-          //$scope.token = result.token;
-          //$scope.email = result.email;
-          //$scope.name = result.first_name +" "+result.last_name;
+          alert($scope.email);
           var dataObj = {
             id: $scope.id,
             token:$scope.token,
@@ -57,12 +46,12 @@ angular.module('App', ["ionic","ngCordovaOauth"])
           };
           var res = $http.post('https://lisahoroscope.herokuapp.com/api/users',dataObj);
           res.success(function(data,status,header,config){
-            //alert("Login Successful");
+            alert("Save users name Successful");
           });
           res.error(function(data,status,headers,config){
              //alert("failure message:" + JSON.stringify({data:data}));
           });
-          CurrentUserService.save(dataObj);
+
           // saving to databases
           $scope.id ='';
           $scope.token ='';
@@ -83,15 +72,6 @@ angular.module('App', ["ionic","ngCordovaOauth"])
         }
     );
   }
-  $scope.logoutFacebook = function(){
-    facebookConnectPlugin.logout(function(result){
-      //
-      alert('Log out');
-    },function(err){
-      //
-      alert('Cannot logout '+err)
-    });
-  }
 })
 
 .service('BDService',function(){
@@ -106,9 +86,18 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 })
 
 .controller('profileCtrl',function($scope,$state,$http,$templateCache,BDService,dateFilter){
+  $scope.logoutFacebook = function(){
+    facebookConnectPlugin.logout(function(result){
+      //
+      alert('Log out');
+      $state.go('home');
+    },function(err){
+      //
+      alert('Cannot logout '+err)
+    });
+  }
   $scope.submitData = function(){
     var inputText = document.getElementById("dateInput").value;
-
     if (inputText == ""){
       alert("Please enter your birth date....");
     }
@@ -189,7 +178,6 @@ angular.module('App', ["ionic","ngCordovaOauth"])
             },
             function (response) {
               //alert(JSON.stringify(response))
-              alert("Fail!");
             }
           );
         }

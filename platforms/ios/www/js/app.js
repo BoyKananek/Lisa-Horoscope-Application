@@ -95,16 +95,28 @@ angular.module('App', ["ionic","ngCordovaOauth"])
 
   $scope.logoutFacebook = function(){
     facebookConnectPlugin.logout(function(result){
-      alert("logout");
+      //alert("logout");
+      var alertPopup = $ionicPopup.alert({
+         title: 'Bye Bye',
+         template: 'Logout from application'
+      });
       $state.go('home');
     },function(err){
-      alert("logout err: "+err);
+      //alert("logout err: "+err);
+      var alertPopup = $ionicPopup.alert({
+         title: 'Alert',
+         template: 'Logout failure, please try again'
+      });
     });
   }
   $scope.submitData = function(){
     var inputText = document.getElementById("dateInput").value;
     if (inputText == ""){
-      alert("Please enter your birth date....");
+      //alert("Please enter your birth date....");
+      var alertPopup = $ionicPopup.alert({
+         title: 'Alert',
+         template: 'Please enter your birth date .....'
+      });
     }
     else{
       $state.go('horoscope');
@@ -166,7 +178,7 @@ angular.module('App', ["ionic","ngCordovaOauth"])
   }
 })
 
-.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService){
+.controller('horoCtrl',function($scope,$state,$http,$templateCache,BDService,$ionicPopup){
   $scope.zodiac = BDService.get();
   $http.get("https://lisahoroscope.herokuapp.com/api/horoscope/"+$scope.zodiac).then(function(response){
     $scope.daily = response.data.Daily_Horoscope;
@@ -184,15 +196,19 @@ angular.module('App', ["ionic","ngCordovaOauth"])
             facebookConnectPlugin.showDialog(
             {
                 method: "feed",
-                picture:'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac,
+                picture:'http://www.lisaguru.com',
                 name:'Lisa Horoscope',
                 message: $scope.zodiac,
                 caption: 'Lets\' see your horoscope ',
-                description: 'www.lisaguru.com'
+                description: 'https://lisahoroscope.herokuapp.com/view/horoscope/'+$scope.zodiac
             },
             function (response) {
               //alert(JSON.stringify(response))
-              alert("Post!");
+              //alert("Post!");
+              var alertPopup = $ionicPopup.alert({
+                 title: 'Successful',
+                 template: 'Post! on Facebook already.'
+              });
             },
             function (response) {
               //alert(JSON.stringify(response))

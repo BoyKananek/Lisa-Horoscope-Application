@@ -1,10 +1,16 @@
-<ion-view view-title="Profile">
+
+<ion-view view-title="Profile"  hide-back-button="true">
+  </ion-nav-bar>
   <ion-content ng-controller="profileCtrl">
     <div class="list list-inset">
+      <label><h2> Enter your birth date:</h2></label>
       <label class="item item-input">
-        <input type="date" name="date" ng-model="birthdate"/>
+        <input id="dateInput" type="date" name="date" ng-model="birthdate"/>
       </label>
     </div>
-    <button class="button button-block button-positive" ng-click="submitData()"> Submit </button>
+    <button class="button button-block button-positive" ng-click="submitData()" > Make a wish ! </button>
+    <div style = "margin-top:100%">
+      <button class="button button-block button-assertive" ng-click='logoutFacebook()'>Logout</button>
+    <div>
   </ion-content>
 </ion-view>
